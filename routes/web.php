@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 Route::view('/', 'welcome');
-Auth::routes();
+Auth::routes(['verify' => true]);
 
 Route::get('/login/admin', 'Auth\LoginController@showAdminLoginForm');
 Route::get('/login/agent', 'Auth\LoginController@showAgentLoginForm');
