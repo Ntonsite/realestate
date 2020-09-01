@@ -31,7 +31,7 @@ Route::post('/register/admin', 'Auth\RegisterController@createAdmin');
 Route::post('/register/agent', 'Auth\RegisterController@createAgent');
 Route::post('/register/customer', 'Auth\RegisterController@createCustomer');
 
-Route::view('/home', 'home')->middleware('auth');
+Route::view('/home', 'home')->middleware('auth','verified');
 Route::view('/admin', 'admin');
 Route::view('/agent', 'agent');
 Route::view('/customer', 'customer');
