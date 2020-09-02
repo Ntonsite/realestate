@@ -66,6 +66,39 @@
                             </div>
                         </div>
 
+                        <div class="form-group row">
+                            <div class="col-md-6 offset-md-4">
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" name="remember">
+                                    </label>
+                                    <a data-toggle="modal" data-target="#myModal">Click Me</a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Terms and Agreements Popup -->
+                        <div id="myModal" class="modal fade" role="dialog">
+                            <div class="modal-dialog">
+
+                                <!-- Modal content-->
+                                <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                    <h4 class="text-center modal-title">Terms and Conditions</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <p>Some Text for conditions</p>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <!-- End Popup Modal -->
+
                         <div class="form-group row mb-0">
                             <div class="col-md-6 offset-md-4">
                                 <button type="submit" class="btn btn-primary">
