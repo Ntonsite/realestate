@@ -9,16 +9,16 @@
             <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
                 <div class="list-inline">
                     <a href="tel:1-8X0-666-8X88"><i class="fa fa-phone"></i>1-8X0-666-8X88</a>
-                    <a href="tel:info@themevessel.com"><i class="fa fa-envelope"></i>info@themevessel.com</a>
+                    <a href="tel:info@themevessel.com"><i class="fa fa-envelope"></i>info@realestate.com</a>
                 </div>
             </div>
             <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
                 <ul class="top-social-media pull-right">
                     <li>
-                        <a href="{{ url('login')}}" class="sign-in"><i class="fa fa-sign-in"></i> Login</a>
+                        <a href="{{ route('login') }}" class="sign-in"><i class="fa fa-sign-in"></i> Login</a>
                     </li>
                     <li>
-                        <a href="{{ url('register')}}" class="sign-in"><i class="fa fa-user"></i> Register</a>
+                        <a href="{{ route('register') }}" class="sign-in"><i class="fa fa-user"></i> Register</a>
                     </li>
                 </ul>
             </div>
