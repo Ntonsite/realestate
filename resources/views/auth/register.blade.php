@@ -71,8 +71,9 @@
                                 <div class="checkbox">
                                     <label>
                                         <input type="checkbox" name="remember">
+                                        Agree to
+                                         <a style="text-decoration: none;" href="#" data-toggle="modal" data-target="#myModal">Terms and Conditions</a>
                                     </label>
-                                    <a href="#" data-toggle="modal" data-target="#myModal">Agree Terms and Conditions</a>
                                 </div>
                             </div>
                         </div>
