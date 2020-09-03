@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::view('/', 'index');
+Route::view('/', 'welcome');
 Auth::routes(['verify' => true]);
 
 Route::get('/login/admin', 'Auth\LoginController@showAdminLoginForm');
