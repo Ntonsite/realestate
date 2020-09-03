@@ -92,8 +92,7 @@
                                 <p>Terms and Conditions goes here in body.</p>
                               </div>
                               <div class="modal-footer">
-                                <button type="button" class="btn btn-primary">Continue</button>
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Continue</button>
                               </div>
                             </div>
                           </div>
