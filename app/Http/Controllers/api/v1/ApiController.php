@@ -52,8 +52,7 @@ class ApiController extends Controller
         $token = $request->user()->token();
         $token->revoke();
 
-        $response = 'You have been succesfully logged out!';
-        return response($response, 200);
+        return response(['message'=> 'Successfully Loggged Out'], 200);
 
     }
 }
