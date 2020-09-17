@@ -1,13 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\api\v1\user;
+namespace App\Http\Controllers\api\v1\role;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\User;
-use Illuminate\Support\Facades\Auth;
+use App\Role;
 
-class UserController extends Controller
+class RoleController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,7 +15,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        return User::all();
+        return Role::all();
     }
 
     /**
@@ -71,27 +70,7 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $data = Auth::user()->users()->find($id);
- 
-        if (!$data) {
-            return response()->json([
-                'success' => false,
-                'message' => 'user not found'
-            ], 400);
-        }
- 
-        $updated = $data->fill($request->all())->save();
- 
-        if ($updated)
-            return response()->json([
-                'success' => true,
-                'message' => 'Details Updated'
-            ], 200);
-        else
-            return response()->json([
-                'success' => false,
-                'message' => 'Details can not be updated'
-            ], 500);
+        //
     }
 
     /**

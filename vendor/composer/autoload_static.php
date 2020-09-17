@@ -575,6 +575,7 @@ class ComposerStaticInitbb14979b2ae62d8c8c2815476752d5fd
     );
 
     public static $classMap = array (
+        'App\\Ad' => __DIR__ . '/../..' . '/app/Ad.php',
         'App\\Console\\Kernel' => __DIR__ . '/../..' . '/app/Console/Kernel.php',
         'App\\Exceptions\\Handler' => __DIR__ . '/../..' . '/app/Exceptions/Handler.php',
         'App\\Http\\Controllers\\Auth\\ConfirmPasswordController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/ConfirmPasswordController.php',
@@ -585,6 +586,10 @@ class ComposerStaticInitbb14979b2ae62d8c8c2815476752d5fd
         'App\\Http\\Controllers\\Auth\\VerificationController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/VerificationController.php',
         'App\\Http\\Controllers\\Controller' => __DIR__ . '/../..' . '/app/Http/Controllers/Controller.php',
         'App\\Http\\Controllers\\HomeController' => __DIR__ . '/../..' . '/app/Http/Controllers/HomeController.php',
+        'App\\Http\\Controllers\\api\\v1\\ApiController' => __DIR__ . '/../..' . '/app/Http/Controllers/api/v1/ApiController.php',
+        'App\\Http\\Controllers\\api\\v1\\ads\\AdController' => __DIR__ . '/../..' . '/app/Http/Controllers/api/v1/ads/AdController.php',
+        'App\\Http\\Controllers\\api\\v1\\subscription\\SubController' => __DIR__ . '/../..' . '/app/Http/Controllers/api/v1/subscription/SubController.php',
+        'App\\Http\\Controllers\\api\\v1\\user\\UserController' => __DIR__ . '/../..' . '/app/Http/Controllers/api/v1/user/UserController.php',
         'App\\Http\\Kernel' => __DIR__ . '/../..' . '/app/Http/Kernel.php',
         'App\\Http\\Middleware\\Authenticate' => __DIR__ . '/../..' . '/app/Http/Middleware/Authenticate.php',
         'App\\Http\\Middleware\\CheckForMaintenanceMode' => __DIR__ . '/../..' . '/app/Http/Middleware/CheckForMaintenanceMode.php',
@@ -600,6 +605,7 @@ class ComposerStaticInitbb14979b2ae62d8c8c2815476752d5fd
         'App\\Providers\\EventServiceProvider' => __DIR__ . '/../..' . '/app/Providers/EventServiceProvider.php',
         'App\\Providers\\RouteServiceProvider' => __DIR__ . '/../..' . '/app/Providers/RouteServiceProvider.php',
         'App\\Role' => __DIR__ . '/../..' . '/app/Role.php',
+        'App\\Subscription' => __DIR__ . '/../..' . '/app/Subscription.php',
         'App\\User' => __DIR__ . '/../..' . '/app/User.php',
         'ArithmeticError' => __DIR__ . '/..' . '/symfony/polyfill-php70/Resources/stubs/ArithmeticError.php',
         'Asm89\\Stack\\Cors' => __DIR__ . '/..' . '/asm89/stack-cors/src/Cors.php',

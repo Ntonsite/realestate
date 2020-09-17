@@ -4,6 +4,8 @@ namespace App\Http\Controllers\api\v1\ads;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Ad;
+use Illuminate\Support\Facades\Auth;
 
 class AdController extends Controller
 {
@@ -14,7 +16,7 @@ class AdController extends Controller
      */
     public function index()
     {
-        //
+        return Ad::all();
     }
 
     /**
@@ -35,7 +37,26 @@ class AdController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+            'title' => 'required',
+            'description' => 'required'
+        ]);
+
+        $ad = new Ad();
+        $ad ->title= $request->title;
+        $ad ->description= $request->description;
+
+        if(Auth::user()->ads()->save($ad)){
+            return response()->json([
+                'success' => true,
+                'data' => $ad->toArray()
+            ], 200);
+        }else{
+            return response()->json([
+                'success'=>false,
+                'message'=>'Ad was not created'
+            ], 500);
+        }
     }
 
     /**
@@ -46,7 +67,19 @@ class AdController extends Controller
      */
     public function show($id)
     {
-        //
+        $ad = Auth::user()->ads()->find($id);
+ 
+        if (!$ad) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Post not found '
+            ], 400);
+        }
+ 
+        return response()->json([
+            'success' => true,
+            'data' => $post->toArray()
+        ], 200);
     }
 
     /**
@@ -69,7 +102,26 @@ class AdController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $ad = Auth::user()->ads()->find($id);
+ 
+        if (!$ad) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Ad not found'
+            ], 400);
+        }
+ 
+        $updated = $ad->fill($request->all())->save();
+ 
+        if ($updated)
+            return response()->json([
+                'success' => true
+            ]);
+        else
+            return response()->json([
+                'success' => false,
+                'message' => 'Ad can not be updated'
+            ], 500);
     }
 
     /**
@@ -80,6 +132,25 @@ class AdController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $ad = Auth::user()->ads()->find($id);
+ 
+        if (!$ad) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Ad not found'
+            ], 400);
+        }
+ 
+        if ($ad->delete()) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Ad deleted successfully'
+            ]);
+        } else {
+            return response()->json([
+                'success' => false,
+                'message' => 'Ad can not be deleted'
+            ], 500);
+        }
     }
 }

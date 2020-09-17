@@ -4,6 +4,7 @@ namespace App\Http\Controllers\api\v1\subscription;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Subscription;
 
 class SubController extends Controller
 {
@@ -14,7 +15,7 @@ class SubController extends Controller
      */
     public function index()
     {
-        //
+        return Subscription::all();
     }
 
     /**
