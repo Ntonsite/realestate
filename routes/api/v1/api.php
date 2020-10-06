@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::prefix('/user')->group(function(){
     Route::post('/login', 'api\v1\ApiController@login');
-    Route::middleware('auth:api')->post('/register', 'api\v1\ApiController@register');
+    Route::post('/register', 'api\v1\ApiController@register');
     Route::middleware('auth:api')->get('/logout', 'api\v1\ApiController@logout');
     Route::middleware('auth:api')->get('/list', 'api\v1\user\UserController@index');
     Route::middleware('auth:api')->put('/subscriptionAdd/{id}', 'api\v1\user\UserController@update');

@@ -9,11 +9,7 @@ use Illuminate\Support\Facades\Auth;
 
 class AdController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function index()
     {
         return Ad::all();
@@ -33,7 +29,7 @@ class AdController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function store(Request $request)
     {
@@ -63,19 +59,19 @@ class AdController extends Controller
      * Display the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function show($id)
     {
         $ad = Auth::user()->ads()->find($id);
- 
+
         if (!$ad) {
             return response()->json([
                 'success' => false,
                 'message' => 'Post not found '
             ], 400);
         }
- 
+
         return response()->json([
             'success' => true,
             'data' => $post->toArray()
@@ -98,21 +94,21 @@ class AdController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function update(Request $request, $id)
     {
         $ad = Auth::user()->ads()->find($id);
- 
+
         if (!$ad) {
             return response()->json([
                 'success' => false,
                 'message' => 'Ad not found'
             ], 400);
         }
- 
+
         $updated = $ad->fill($request->all())->save();
- 
+
         if ($updated)
             return response()->json([
                 'success' => true
@@ -128,19 +124,19 @@ class AdController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function destroy($id)
     {
         $ad = Auth::user()->ads()->find($id);
- 
+
         if (!$ad) {
             return response()->json([
                 'success' => false,
                 'message' => 'Ad not found'
             ], 400);
         }
- 
+
         if ($ad->delete()) {
             return response()->json([
                 'success' => true,

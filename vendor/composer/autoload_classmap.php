@@ -19,6 +19,7 @@ return array(
     'App\\Http\\Controllers\\HomeController' => $baseDir . '/app/Http/Controllers/HomeController.php',
     'App\\Http\\Controllers\\api\\v1\\ApiController' => $baseDir . '/app/Http/Controllers/api/v1/ApiController.php',
     'App\\Http\\Controllers\\api\\v1\\ads\\AdController' => $baseDir . '/app/Http/Controllers/api/v1/ads/AdController.php',
+    'App\\Http\\Controllers\\api\\v1\\role\\RoleController' => $baseDir . '/app/Http/Controllers/api/v1/role/RoleController.php',
     'App\\Http\\Controllers\\api\\v1\\subscription\\SubController' => $baseDir . '/app/Http/Controllers/api/v1/subscription/SubController.php',
     'App\\Http\\Controllers\\api\\v1\\user\\UserController' => $baseDir . '/app/Http/Controllers/api/v1/user/UserController.php',
     'App\\Http\\Kernel' => $baseDir . '/app/Http/Kernel.php',

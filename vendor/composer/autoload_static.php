@@ -588,6 +588,7 @@ class ComposerStaticInitbb14979b2ae62d8c8c2815476752d5fd
         'App\\Http\\Controllers\\HomeController' => __DIR__ . '/../..' . '/app/Http/Controllers/HomeController.php',
         'App\\Http\\Controllers\\api\\v1\\ApiController' => __DIR__ . '/../..' . '/app/Http/Controllers/api/v1/ApiController.php',
         'App\\Http\\Controllers\\api\\v1\\ads\\AdController' => __DIR__ . '/../..' . '/app/Http/Controllers/api/v1/ads/AdController.php',
+        'App\\Http\\Controllers\\api\\v1\\role\\RoleController' => __DIR__ . '/../..' . '/app/Http/Controllers/api/v1/role/RoleController.php',
         'App\\Http\\Controllers\\api\\v1\\subscription\\SubController' => __DIR__ . '/../..' . '/app/Http/Controllers/api/v1/subscription/SubController.php',
         'App\\Http\\Controllers\\api\\v1\\user\\UserController' => __DIR__ . '/../..' . '/app/Http/Controllers/api/v1/user/UserController.php',
         'App\\Http\\Kernel' => __DIR__ . '/../..' . '/app/Http/Kernel.php',
