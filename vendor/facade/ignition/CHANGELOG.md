@@ -2,6 +2,15 @@
 
 All notable changes to `ignition` will be documented in this file
 
+## 2.3.8 - 2020-10-02
+
+- Address Missing Mix Manifest Error (#317)
+
+## 2.3.7 - 2020-09-06
+
+- add loading state on share button (#309)
+- compatiblity fix for L8
+
 ## 2.3.6 - 2020-08-10
 
 - possible security vulnerability: bump elliptic version (#300)
