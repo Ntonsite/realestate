@@ -15,7 +15,7 @@ class UserController extends Controller
 
     public function index()
     {
-        $user = User::all();
+        $user = User::with(['notifications'])->get();
         return AppHelper::appResponse(false, null, [
             'user' => $user
         ]);
@@ -73,9 +73,10 @@ class UserController extends Controller
     }
 
 
-    public function update(Request $request, User $user)
+    public function update(Request $request)
     {
-        //
+        $user = Auth::user();
+        return response(AppHelper::appResponse(false, null, ["user" => $user]));
     }
 
     public function logout(Request $request)
@@ -109,6 +110,7 @@ class UserController extends Controller
             'last_name' => ['required', 'string', 'max:255'],
             'business_mail' => ['sometimes', 'string', 'email', 'max:255'],
             'phone' => ['required', 'string', 'max:10', 'min:9'],
+            'county' => ['required','in:Tz,Bw'],
         ];
 
         return $isNewUser ? Validator::make(request()->all(), $newUser) : Validator::make(request()->all(), $updateUser);

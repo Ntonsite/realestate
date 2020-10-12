@@ -21,7 +21,7 @@ class CreatePropertiesTable extends Migration
             $table->string('category');
             $table->string('type');
             $table->json('offer')->default(json_encode(['long_stay_night' => 0, 'offer_percentage' => 0]));
-            $table->longText('images');
+            $table->longText('media')->default(json_encode(['images' => [], 'videos' => []]));
             $table->longText('location');
             $table->integer('bedroom')->default(0);
             $table->integer('bathroom')->default(0);
