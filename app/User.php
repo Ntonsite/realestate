@@ -17,7 +17,19 @@ class User extends Authenticatable implements MustVerifyEmail
     * @var array
     */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name',
+        'role_id',
+        'account_type',
+        'name',
+        'email',
+        'first_name',
+        'last_name',
+        'phone',
+        'country',
+        'image',
+        'business_email',
+        'status',
+        'password',
     ];
 
     /**
@@ -36,6 +48,7 @@ class User extends Authenticatable implements MustVerifyEmail
     */
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'account_type' => 'json',
     ];
 
     public function ads()

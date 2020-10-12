@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\api\v1\user;
 
+use App\Http\Controllers\api\v1\AppHelper;
 use App\Http\Controllers\Controller;
 use App\User;
 use Illuminate\Http\Request;
@@ -14,7 +15,10 @@ class UserController extends Controller
 
     public function index()
     {
-        //
+        $user = User::all();
+        return AppHelper::appResponse(false, null, [
+            'user' => $user
+        ]);
     }
 
 
@@ -36,26 +40,24 @@ class UserController extends Controller
     }
 
 
-    public function store(Request $request)
+    public function register(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:6|confirmed',
-            'roleID' => 'required',
-        ]);
+        $validator = $this->validateUser(true);
 
         if ($validator->fails()) {
-            return response(['errors' => $validator->errors()->all()], 422);
+            return  response(AppHelper::appResponseWithValidation($validator,[]));
         }
 
-        $request['password'] = Hash::make($request['password']);
-        $user = User::create($request->toArray());
+        $password = $request['password'];
+        $request['password'] = Hash::make($password);
+        $request['name'] = $request['first_name'].' '.$request['last_name'];
 
-        $token = $user->createToken('Access Grant Client')->accessToken;
-        $response = ['token' => $token];
+        if(User::create($request->toArray())){
+            $request['password'] = $password;
+            return AppHelper::userLogin(request(['email', 'password']));
+        }
 
-        return response($response, 200);
+        return response(AppHelper::appResponse(true, "something went wrong", []));
     }
 
 
@@ -90,5 +92,25 @@ class UserController extends Controller
     public function destroy(User $user)
     {
         //
+    }
+
+    private function validateUser($isNewUser)
+    {
+
+        $newUser = [
+            'first_name' => ['required', 'string', 'max:255'],
+            'last_name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'password' => ['required', 'string', 'min:8',],
+        ];
+
+        $updateUser = [
+            'first_name' => ['required', 'string', 'max:255'],
+            'last_name' => ['required', 'string', 'max:255'],
+            'business_mail' => ['sometimes', 'string', 'email', 'max:255'],
+            'phone' => ['required', 'string', 'max:10', 'min:9'],
+        ];
+
+        return $isNewUser ? Validator::make(request()->all(), $newUser) : Validator::make(request()->all(), $updateUser);
     }
 }
