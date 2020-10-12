@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\api\v1\property;
 
+use App\Http\Controllers\Controller;
 use App\Property;
 use Illuminate\Http\Request;
 

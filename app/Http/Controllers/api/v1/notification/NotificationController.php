@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\api\v1\notification;
 
-use App\PropertyNearBy;
+use App\Http\Controllers\Controller;
+use App\Notification;
 use Illuminate\Http\Request;
 
-class PropertyNearByController extends Controller
+class NotificationController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -41,10 +42,10 @@ class PropertyNearByController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\PropertyNearBy  $propertyNearBy
+     * @param  \App\Notification  $notification
      * @return \Illuminate\Http\Response
      */
-    public function show(PropertyNearBy $propertyNearBy)
+    public function show(Notification $notification)
     {
         //
     }
@@ -52,10 +53,10 @@ class PropertyNearByController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\PropertyNearBy  $propertyNearBy
+     * @param  \App\Notification  $notification
      * @return \Illuminate\Http\Response
      */
-    public function edit(PropertyNearBy $propertyNearBy)
+    public function edit(Notification $notification)
     {
         //
     }
@@ -64,10 +65,10 @@ class PropertyNearByController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\PropertyNearBy  $propertyNearBy
+     * @param  \App\Notification  $notification
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, PropertyNearBy $propertyNearBy)
+    public function update(Request $request, Notification $notification)
     {
         //
     }
@@ -75,10 +76,10 @@ class PropertyNearByController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\PropertyNearBy  $propertyNearBy
+     * @param  \App\Notification  $notification
      * @return \Illuminate\Http\Response
      */
-    public function destroy(PropertyNearBy $propertyNearBy)
+    public function destroy(Notification $notification)
     {
         //
     }

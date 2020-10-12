@@ -16,17 +16,20 @@ class CreatePropertiesTable extends Migration
         Schema::create('properties', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
-            $table->unsignedBigInteger('property_near_bies_id');
-            $table->unsignedBigInteger('rental_frequency_name');
-            $table->string('near_by_name');
+            $table->json('rental_frequency')->default(json_encode(['frequency' => ['Yearly' => null,'Monthly' => null,'Weekly' => null,'Daily' => null]]));
+            $table->json('near_by_name')->nullable();
             $table->string('category');
             $table->string('type');
+            $table->json('offer')->default(json_encode(['long_stay_night' => 0, 'offer_percentage' => 0]));
             $table->longText('images');
             $table->longText('location');
             $table->integer('bedroom')->default(0);
             $table->integer('bathroom')->default(0);
             $table->integer('status')->default(1);
             $table->timestamps();
+
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
+
         });
     }
 

@@ -17,16 +17,16 @@ class CreateUsersTable extends Migration
             $table->id();
             $table->unsignedBigInteger('role_id');
             $table->unsignedBigInteger('subscription_id')->nullable();
-            $table->enum('account_type', ['Dalali', 'Customer', 'Owner', 'Pro'])->default('Customer');
+            $table->json('account_type')->default(json_encode(['Customer' => true, 'Dalali' => [null,null], 'Client' => false, 'Pro' => false]));
             $table->string('name');
-            $table->string('phone');
+            $table->json('phone')->nullable();
             $table->enum('country', ['Tz', 'BW']);
-            $table->string('phone2')->nullable();
             $table->string('business_email')->nullable();
             $table->string('image')->nullable();
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->json('favorites')->nullable();//array of property list
             $table->integer('status')->default(1); // 1 = active user 0 = suspended user
             $table->rememberToken();
             $table->timestamps();

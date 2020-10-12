@@ -16,18 +16,34 @@ use Illuminate\Support\Facades\Route;
 */
 // 05th October
 
-Route::prefix('/user')->group(function(){
-    Route::post('/login', 'api\v1\ApiController@login');
-    Route::post('/register', 'api\v1\ApiController@register');
-    Route::middleware('auth:api')->get('/logout', 'api\v1\ApiController@logout');
-    Route::middleware('auth:api')->get('/list', 'api\v1\user\UserController@index');
-    Route::middleware('auth:api')->put('/subscriptionAdd/{id}', 'api\v1\user\UserController@update');
+$user_path = 'api\v1\user\\';
+$property_path = 'api\v1\property\\';
+
+
+Route::prefix('user')->group(function() use ($user_path){
+    Route::post('register', $user_path."UserController@register")->middleware('auth:api');
+    Route::post('login', $user_path."UserController@login");
+    Route::middleware('auth:api')->get('logout', $user_path."UserController@logout");
+    Route::middleware('auth:api')->get('list', $user_path."UserController@index");
+    Route::middleware('auth:api')->get('show/{user}', $user_path."UserController@show");
+    Route::middleware('auth:api')->patch('update/{user}', $user_path."UserController@update");
+    Route::middleware('auth:api')->delete('delete/{user}', $user_path."UserController@destroy");
 });
 
-Route::prefix('/ad')->group(function(){
-    Route::middleware('auth:api')->get('/list', 'api\v1\AdController@index');
-    Route::middleware('auth:api')->get('/{id}', 'api\v1\AdController@show');
-    Route::middleware('auth:api')->post('/create', 'api\v1\AdController@store');
-    Route::middleware('auth:api')->put('/update/{id}', 'api\v1\AdController@update');
-    Route::middleware('auth:api')->delete('/delete/{id}', 'api\v1\AdController@destroy');
+Route::prefix('property')->group(function() use ($property_path){
+    Route::get('list', $property_path."PropertyController@index");
+    Route::get('show/{property}', $property_path."PropertyController@show");
+    Route::middleware('auth:api')->post('store', $property_path."PropertyController@store");
+    Route::middleware('auth:api')->patch('update/{property}', $property_path."PropertyController@update");
+    Route::middleware('auth:api')->delete('delete/{property}', $property_path."PropertyController@destroy");
 });
+
+
+
+//Route::prefix('/ad')->group(function(){
+//    Route::middleware('auth:api')->get('/list', 'api\v1\AdController@index');
+//    Route::middleware('auth:api')->get('/{id}', 'api\v1\AdController@show');
+//    Route::middleware('auth:api')->post('/create', 'api\v1\AdController@store');
+//    Route::middleware('auth:api')->put('/update/{id}', 'api\v1\AdController@update');
+//    Route::middleware('auth:api')->delete('/delete/{id}', 'api\v1\AdController@destroy');
+//});
