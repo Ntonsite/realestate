@@ -21,14 +21,14 @@ class CreateUsersTable extends Migration
             $table->string('name');
             $table->string('first_name');
             $table->string('last_name');
-            $table->json('phone')->nullable();
+            $table->json('phone')->default(json_encode(['Phone1' =>null, 'Phone2' => null]));
             $table->enum('country', ['Tz', 'BW']);
             $table->string('business_email')->nullable();
             $table->string('image')->nullable();
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->json('favorites')->nullable();//array of property list
+            $table->json('favorites')->default(json_encode(['favorite_list' => []]));//array of property list
             $table->integer('status')->default(1); // 1 = active user 0 = suspended user
             $table->rememberToken();
             $table->timestamps();

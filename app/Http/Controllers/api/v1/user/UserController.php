@@ -42,17 +42,17 @@ class UserController extends Controller
 
     public function register(Request $request)
     {
-        $validator = $this->validateUser(true);
+        $validator = $this->validateUser(true, $request);
 
         if ($validator->fails()) {
-            return  response(AppHelper::appResponseWithValidation($validator,[]));
+            return response(AppHelper::appResponseWithValidation($validator, []));
         }
 
         $password = $request['password'];
         $request['password'] = Hash::make($password);
-        $request['name'] = $request['first_name'].' '.$request['last_name'];
+        $request['name'] = $request['first_name'] . ' ' . $request['last_name'];
 
-        if(User::create($request->toArray())){
+        if (User::create($request->toArray())) {
             $request['password'] = $password;
             return AppHelper::userLogin(request(['email', 'password']));
         }
@@ -75,8 +75,28 @@ class UserController extends Controller
 
     public function update(Request $request)
     {
-        $user = Auth::user();
-        return response(AppHelper::appResponse(false, null, ["user" => $user]));
+
+
+        $validator = $this->validateUser(false, $request);
+        if (!$validator->fails()) {
+
+
+            User::where('id', Auth::id())->update([
+                'account_type->Customer' => $request->input('account_type.Customer'),
+                'account_type->Client' => $request->input('account_type.Client'),
+                'phone->Phone1' => $request->input('phone.Phone1'),
+                'phone->Phone2' => $request->input('phone.Phone2'),
+                'first_name' => $request->input('first_name'),
+                'last_name' => $request->input('last_name'),
+                'name' => $request->input('first_name') . ' ' . $request->input('last_name'),
+            ]);
+            $user = User::where('id', Auth::id())->first();
+            return response(AppHelper::appResponse(false, null, ["user" => $user]));
+
+        }
+        return response(AppHelper::appResponseWithValidation($validator, []));
+
+
     }
 
     public function logout(Request $request)
@@ -95,7 +115,7 @@ class UserController extends Controller
         //
     }
 
-    private function validateUser($isNewUser)
+    private function validateUser($isNewUser, Request $request)
     {
 
         $newUser = [
@@ -108,9 +128,16 @@ class UserController extends Controller
         $updateUser = [
             'first_name' => ['required', 'string', 'max:255'],
             'last_name' => ['required', 'string', 'max:255'],
-            'business_mail' => ['sometimes', 'string', 'email', 'max:255'],
-            'phone' => ['required', 'string', 'max:10', 'min:9'],
-            'county' => ['required','in:Tz,Bw'],
+            'business_mail' => ['sometimes', 'string', 'email', 'unique:users', 'max:255'],
+            'phone.Phone1' => ['required'],
+            'phone.Phone2' => ['required'],
+            'country' => ['required', 'in:Tz,Bw'],
+            'image' => ['sometimes'],
+            'account_type.Customer' => ['sometimes'],
+            'account_type.Client' => ['sometimes'],
+            'account_type.Pro' => ['sometimes'],
+            'account_type.Dalali' => ['sometimes'],
+            'favorites.favorite_list' => ['sometimes'],
         ];
 
         return $isNewUser ? Validator::make(request()->all(), $newUser) : Validator::make(request()->all(), $updateUser);

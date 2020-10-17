@@ -38,9 +38,6 @@ class AppHelper
 
     public static function userLogin($credentials){
 
-//        if (! $token = auth()->attempt($credentials)) {
-//            return  $this->appResponse(true, 'Email or password is wrong', []);
-//        }
 
         if (!Auth::attempt($credentials)) {
 
@@ -48,6 +45,7 @@ class AppHelper
         }
 
         $accessToken = Auth::user()->createToken('authToken')->accessToken;
+        AppHelper::createFolder(Auth::id());
         return appHelper::appResponse(false,null,  appHelper::appResponseUserInfo($accessToken) );
     }
 
@@ -58,7 +56,7 @@ class AppHelper
         return $data;
     }
 
-    public  function createFolder(int $userId){
+    public static function createFolder(int $userId){
         //product_images folder
         if(!is_dir(public_path(AppHelper::rootDirectory))){
             mkdir(public_path(AppHelper::rootDirectory), 0777);

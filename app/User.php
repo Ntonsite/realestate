@@ -49,6 +49,8 @@ class User extends Authenticatable implements MustVerifyEmail
     protected $casts = [
         'email_verified_at' => 'datetime',
         'account_type' => 'json',
+        'favorites' => 'json',
+        'phone' => 'json',
     ];
 
     public function ads()
