@@ -27,7 +27,7 @@ Route::prefix('user')->group(function() use ($user_path){
     Route::middleware('auth:api')->get('list', $user_path."UserController@index");
     Route::middleware('auth:api')->get('show/{user}', $user_path."UserController@show");
     Route::middleware('auth:api')->patch('update/{user}', $user_path."UserController@update");
-    Route::middleware('auth:api')->delete('delete/{user}', $user_path."UserController@destroy");
+    Route::middleware('auth:api')->delete('delete/user', $user_path."UserController@destroy");
 });
 
 Route::prefix('property')->group(function() use ($property_path){

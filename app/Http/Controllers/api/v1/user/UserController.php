@@ -110,9 +110,12 @@ class UserController extends Controller
     }
 
 
-    public function destroy(User $user)
+    public function destroy(Request $request)
     {
-        //
+
+        User::where('id', Auth::id())->delete();
+        $this->logout($request);
+
     }
 
     private function validateUser($isNewUser, Request $request)

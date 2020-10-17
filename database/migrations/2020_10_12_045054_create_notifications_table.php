@@ -20,6 +20,7 @@ class CreateNotificationsTable extends Migration
             $table->unsignedBigInteger('property_id')->nullable();
             $table->string('message');
             $table->integer('status')->default(1);
+            $table->softDeletes();
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');

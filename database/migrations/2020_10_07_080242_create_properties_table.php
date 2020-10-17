@@ -26,6 +26,7 @@ class CreatePropertiesTable extends Migration
             $table->integer('bedroom')->default(0);
             $table->integer('bathroom')->default(0);
             $table->integer('status')->default(1);
+            $table->softDeletes();
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');

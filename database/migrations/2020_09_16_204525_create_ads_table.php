@@ -18,6 +18,7 @@ class CreateAdsTable extends Migration
             $table->unsignedBigInteger('user_id');
             $table->text('title');
             $table->longText('description');
+            $table->softDeletes();
             $table->timestamps();
 
             ///$table->foreign('user_id') ->references('id')->on('users') ->on('users');

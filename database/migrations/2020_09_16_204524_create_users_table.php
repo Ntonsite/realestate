@@ -31,6 +31,7 @@ class CreateUsersTable extends Migration
             $table->json('favorites')->default(json_encode(['favorite_list' => []]));//array of property list
             $table->integer('status')->default(1); // 1 = active user 0 = suspended user
             $table->rememberToken();
+            $table->softDeletes();
             $table->timestamps();
 
             $table->foreign('role_id')->references('id')->on('roles')->onDelete('cascade')->onUpdate('cascade');
