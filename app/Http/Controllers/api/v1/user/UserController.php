@@ -24,19 +24,14 @@ class UserController extends Controller
 
     public function login(Request $request)
     {
-        $login = $request->validate([
+        $validator = Validator::make($request->all(), [
             'email' => 'required|string',
             'password' => 'required|string'
         ]);
-
-        if (!Auth::attempt($login)) {
-            return response(['message' => 'Invalid login credentials']);
+        if (!$validator->fails()) {
+            return AppHelper::userLogin($request->all());
         }
-
-        $accessToken = Auth::user()->createToken('authToken')->accessToken;
-
-        return response(['user' => Auth::user(), 'access_token' => $accessToken]);
-
+        return AppHelper::appResponseWithValidation($validator, []);
     }
 
 
@@ -76,11 +71,9 @@ class UserController extends Controller
     public function update(Request $request)
     {
 
-
         $validator = $this->validateUser(false, $request);
+
         if (!$validator->fails()) {
-
-
             User::where('id', Auth::id())->update([
                 'account_type->Customer' => $request->input('account_type.Customer'),
                 'account_type->Client' => $request->input('account_type.Client'),
@@ -95,7 +88,6 @@ class UserController extends Controller
 
         }
         return response(AppHelper::appResponseWithValidation($validator, []));
-
 
     }
 
