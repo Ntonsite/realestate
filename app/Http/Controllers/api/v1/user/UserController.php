@@ -115,6 +115,7 @@ class UserController extends Controller
 
         User::where('id', Auth::id())->delete();
         $this->logout($request);
+        return response(AppHelper::appResponse(false, null, []));
 
     }
 
