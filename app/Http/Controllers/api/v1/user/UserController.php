@@ -47,7 +47,14 @@ class UserController extends Controller
         $request['password'] = Hash::make($password);
         $request['name'] = $request['first_name'] . ' ' . $request['last_name'];
 
-        if (User::create($request->toArray())) {
+        if (User::create([
+            'name' => request()->name,
+            'first_name' => request()->first_name,
+            'last_name' => request()->last_name,
+            'email' => request()->email,
+            'country' => request()->country,
+            'password' => request()->password,
+        ])) {
             $request['password'] = $password;
             return AppHelper::userLogin(request(['email', 'password']));
         }
