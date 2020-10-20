@@ -28,8 +28,12 @@ class UserController extends Controller
             'email' => 'required|string',
             'password' => 'required|string'
         ]);
+
+        $req = new Request();
+        $req['email'] = $request->input('email');
+        $req['password'] = $request->input('password');
         if (!$validator->fails()) {
-            return AppHelper::userLogin($request->all());
+            return AppHelper::userLogin($req->all());
         }
         return AppHelper::appResponseWithValidation($validator, []);
     }
@@ -86,6 +90,7 @@ class UserController extends Controller
                 'account_type->Client' => $request->input('account_type.Client'),
                 'phone->Phone1' => $request->input('phone.Phone1'),
                 'phone->Phone2' => $request->input('phone.Phone2'),
+                'business_email' => $request->input('business_email'),
                 'first_name' => $request->input('first_name'),
                 'last_name' => $request->input('last_name'),
                 'name' => $request->input('first_name') . ' ' . $request->input('last_name'),
@@ -131,9 +136,9 @@ class UserController extends Controller
         $updateUser = [
             'first_name' => ['required', 'string', 'max:255'],
             'last_name' => ['required', 'string', 'max:255'],
-            'business_mail' => ['sometimes', 'string', 'email', 'unique:users', 'max:255'],
-            'phone.Phone1' => ['required'],
-            'phone.Phone2' => ['required'],
+            'business_email' => ['sometimes', 'string', 'email', "unique:users,business_email,".Auth::id(), 'max:255'],
+            'phone.Phone1' => ['required', 'max:12'],
+            'phone.Phone2' => ['sometimes', 'max:12'],
             'country' => ['required', 'in:Tz,Bw'],
             'image' => ['sometimes'],
             'account_type.Customer' => ['sometimes'],
