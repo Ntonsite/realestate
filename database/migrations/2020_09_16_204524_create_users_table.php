@@ -19,8 +19,8 @@ class CreateUsersTable extends Migration
             $table->unsignedBigInteger('subscription_id')->nullable();
             $table->json('account_type')->default(json_encode(['Customer' => true, 'Dalali' => [], 'Client' => false, 'Pro' => false]));
             $table->string('name');
-            $table->string('first_name');
-            $table->string('last_name');
+            $table->string('first_name')->default('user');
+            $table->string('last_name')->default('user-lastname');
             $table->json('phone')->nullable();
             $table->enum('country', ['Tz', 'BW']);
             $table->string('business_email')->nullable();
