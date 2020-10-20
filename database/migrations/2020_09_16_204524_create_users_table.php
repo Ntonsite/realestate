@@ -15,7 +15,6 @@ class CreateUsersTable extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('role_id')->nullable();
             $table->unsignedBigInteger('subscription_id')->nullable();
             $table->json('account_type')->default(json_encode(['Customer' => true, 'Dalali' => [], 'Client' => false, 'Pro' => false]));
             $table->string('name');
@@ -33,7 +32,6 @@ class CreateUsersTable extends Migration
             $table->rememberToken();
             $table->timestamps();
 
-            $table->foreign('role_id')->references('id')->on('roles')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('subscription_id')->references('id')->on('subscriptions')->onDelete('cascade')->onUpdate('cascade');
 
         });
