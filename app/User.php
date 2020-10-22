@@ -31,6 +31,8 @@ class User extends Authenticatable implements MustVerifyEmail
         'image',
         'business_email',
         'status',
+        'dalali',
+        'client',
         'password',
     ];
 
@@ -53,6 +55,8 @@ class User extends Authenticatable implements MustVerifyEmail
         'account_type' => 'json',
         'favorites' => 'json',
         'phone' => 'json',
+        'dalali' => 'json',
+        'client' => 'json',
     ];
 
     public function ads()

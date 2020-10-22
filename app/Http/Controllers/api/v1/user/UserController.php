@@ -7,8 +7,10 @@ use App\Http\Controllers\Controller;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 
 class UserController extends Controller
 {
@@ -78,9 +80,43 @@ class UserController extends Controller
         //
     }
 
+    public function uploadImage(){
+        sleep(3);
+        $auth = Auth::id();
+        $directory_one = '/property_images/user_' . $auth;
+        $directory = '/property_images/user_' . $auth."/profile";
+
+        if (!is_dir(public_path($directory_one))) {
+            mkdir(public_path($directory_one), 0777);
+        }
+        if (!is_dir(public_path($directory))) {
+            mkdir(public_path($directory), 0777);
+        }
+        //delete all file inside directory
+        File::deleteDirectory(public_path($directory),true);
+
+
+        $image = request()->file('image');
+        $original = Str::random().'user_pic.' . $image->getClientOriginalExtension();
+        $image->move(public_path($directory), $original);
+
+        User::where('id', $auth)->update([
+            "image" => $directory.'/'.$original,
+        ]);
+
+        $user = User::where('id', $auth)->first();
+
+
+        return response()->json(
+            AppHelper::appResponse(false,"success",  ['user' => $user] )
+        );
+    }
+
 
     public function update(Request $request)
     {
+
+        //sleep(3);
 
         $validator = $this->validateUser(false, $request);
 
@@ -93,6 +129,7 @@ class UserController extends Controller
                 'business_email' => $request->input('business_email'),
                 'first_name' => $request->input('first_name'),
                 'last_name' => $request->input('last_name'),
+                'country' => $request->input('country'),
                 'name' => $request->input('first_name') . ' ' . $request->input('last_name'),
             ]);
             $user = User::where('id', Auth::id())->first();
@@ -144,7 +181,8 @@ class UserController extends Controller
             'account_type.Customer' => ['sometimes'],
             'account_type.Client' => ['sometimes'],
             'account_type.Pro' => ['sometimes'],
-            'account_type.Dalali' => ['sometimes'],
+            'dalali' => ['sometimes'],
+            'client' => ['sometimes'],
             'favorites.favorite_list' => ['sometimes'],
         ];
 
