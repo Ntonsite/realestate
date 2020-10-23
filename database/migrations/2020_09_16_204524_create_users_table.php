@@ -28,6 +28,7 @@ class CreateUsersTable extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->string('verified_token')->nullable();
             $table->json('favorites')->default(json_encode(['favorite_list' => []]));//array of property list
             $table->json('client')->default(json_encode(['client_list' => []]));//array of client list
             $table->json('dalali')->default(json_encode(['dalali' => []]));//array of dalali list

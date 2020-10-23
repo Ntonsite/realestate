@@ -4,11 +4,13 @@ namespace App\Http\Controllers\api\v1\user;
 
 use App\Http\Controllers\api\v1\AppHelper;
 use App\Http\Controllers\Controller;
+use Illuminate\Auth\Events\Verified;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 
@@ -53,20 +55,61 @@ class UserController extends Controller
         $request['password'] = Hash::make($password);
         $request['name'] = $request['first_name'] . ' ' . $request['last_name'];
 
-        if (User::create([
+        User::create([
             'name' => request()->name,
             'first_name' => request()->first_name,
             'last_name' => request()->last_name,
             'email' => request()->email,
             'country' => request()->country,
+            'verified_token' => Str::random(60),
             'password' => request()->password,
-        ])) {
-            $request['password'] = $password;
-            return AppHelper::userLogin(request(['email', 'password']));
+        ]);
+
+        $user = User::where('email',request()->email)->first();
+        $this->sendEmailVerification($user);
+
+        $request['password'] = $password;
+        return AppHelper::userLogin(request(['email', 'password']));
+
+    }
+
+    private function sendEmailVerification(User $user){
+
+        $url = route('user.verify',['user' => "$user->id", 'token'=>"$user->verified_token"]);
+
+        Mail::send('email.email_verified_template', ["first_name"=>request()->first_name, "url" => $url], function($message) use($user)
+        {
+            $message->to($user->email, $user->first_name)->subject("Verify Email Address");
+        });
+}
+
+    public function verify(Request $request)
+    {
+        $user = User::where('verified_token',$request->route('token'))->where('id', $request->route('user'))->first();
+
+        $already_verified = true;
+        if(!$user->hasVerifiedEmail()){
+            $user->markEmailAsVerified();
+            //todo remove verification token
+            $already_verified = false;
         }
 
-        return response(AppHelper::appResponse(true, "something went wrong", []));
+        return view('email.email_verified',compact('already_verified'));
+
     }
+
+    public function resendEmail(){
+        $user = User::where('id', Auth::id())->first();
+        if($user){
+            $user->update([
+                //'verified_token' => Str::random(60),
+                'email_verified_at' => null
+            ]);
+            $this->sendEmailVerification($user);
+        }
+
+    }
+
 
 
     public function show(User $user)
@@ -80,11 +123,12 @@ class UserController extends Controller
         //
     }
 
-    public function uploadImage(){
-        sleep(3);
+    public function uploadImage()
+    {
+        //sleep(3);
         $auth = Auth::id();
         $directory_one = '/property_images/user_' . $auth;
-        $directory = '/property_images/user_' . $auth."/profile";
+        $directory = '/property_images/user_' . $auth . "/profile";
 
         if (!is_dir(public_path($directory_one))) {
             mkdir(public_path($directory_one), 0777);
@@ -93,22 +137,22 @@ class UserController extends Controller
             mkdir(public_path($directory), 0777);
         }
         //delete all file inside directory
-        File::deleteDirectory(public_path($directory),true);
+        File::deleteDirectory(public_path($directory), true);
 
 
         $image = request()->file('image');
-        $original = Str::random().'user_pic.' . $image->getClientOriginalExtension();
+        $original = Str::random() . 'user_pic.' . $image->getClientOriginalExtension();
         $image->move(public_path($directory), $original);
 
         User::where('id', $auth)->update([
-            "image" => $directory.'/'.$original,
+            "image" => $directory . '/' . $original,
         ]);
 
         $user = User::where('id', $auth)->first();
 
 
         return response()->json(
-            AppHelper::appResponse(false,"success",  ['user' => $user] )
+            AppHelper::appResponse(false, "success", ['user' => $user])
         );
     }
 
@@ -173,7 +217,7 @@ class UserController extends Controller
         $updateUser = [
             'first_name' => ['required', 'string', 'max:255'],
             'last_name' => ['required', 'string', 'max:255'],
-            'business_email' => ['sometimes', 'string', 'email', "unique:users,business_email,".Auth::id(), 'max:255'],
+            'business_email' => ['sometimes', 'string', 'email', "unique:users,business_email," . Auth::id(), 'max:255'],
             'phone.Phone1' => ['required', 'max:12'],
             'phone.Phone2' => ['sometimes', 'max:12'],
             'country' => ['required', 'in:Tz,Bw'],
