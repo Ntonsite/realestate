@@ -23,6 +23,7 @@ $property_path = 'api\v1\property\\';
 Route::prefix('user')->group(function() use ($user_path){
     Route::post('register', $user_path."UserController@register");
     Route::post('login', $user_path."UserController@login");
+    Route::middleware('auth:api')->post('verify/email', $user_path."UserController@verify");
     Route::middleware('auth:api')->get('resendEmail', $user_path."UserController@resendEmail");
     Route::middleware('auth:api')->get('logout', $user_path."UserController@logout");
     Route::middleware('auth:api')->get('list', $user_path."UserController@index");

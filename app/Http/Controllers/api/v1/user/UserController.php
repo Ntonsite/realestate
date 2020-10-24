@@ -61,7 +61,7 @@ class UserController extends Controller
             'last_name' => request()->last_name,
             'email' => request()->email,
             'country' => request()->country,
-            'verified_token' => Str::random(60),
+            'verified_token' => rand(0,9999),
             'password' => request()->password,
         ]);
 
@@ -75,9 +75,9 @@ class UserController extends Controller
 
     private function sendEmailVerification(User $user){
 
-        $url = route('user.verify',['user' => "$user->id", 'token'=>"$user->verified_token"]);
 
-        Mail::send('email.email_verified_template', ["first_name"=>request()->first_name, "url" => $url], function($message) use($user)
+
+        Mail::send('email.email_verified_template', ["user"=>$user], function($message) use($user)
         {
             $message->to($user->email, $user->first_name)->subject("Verify Email Address");
         });
@@ -85,16 +85,27 @@ class UserController extends Controller
 
     public function verify(Request $request)
     {
-        $user = User::where('verified_token',$request->route('token'))->where('id', $request->route('user'))->first();
+        $validator = Validator::make($request->all(),['verification_token' => 'required']);
 
-        $already_verified = true;
+        if($validator->fails()){
+            return response()->json(
+                AppHelper::appResponseWithValidation($validator, [])
+            );
+        }
+        $userID = Auth::id();
+
+        $user = User::where('verified_token',$request->input('verification_token'))->where('id', $userID)->first();
+
+        if(!$user){
+            return AppHelper::appResponse(true, 'Verification fail',['user' => Auth::user()]);
+        }
         if(!$user->hasVerifiedEmail()){
             $user->markEmailAsVerified();
             //todo remove verification token
-            $already_verified = false;
         }
 
-        return view('email.email_verified',compact('already_verified'));
+        $user = User::where('id', $userID)->first();
+        return AppHelper::appResponse(false, null,['user' => $user]);
 
     }
 
