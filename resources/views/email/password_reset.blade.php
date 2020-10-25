@@ -72,7 +72,7 @@
                 Real Estate
             </div>
         <p>Successful</p>
-        <a href="{{url('passwordReset')}}" class="btn btn-primary">
+        <a href="{{route('passwordReset')}}" class="btn btn-primary">
             Login into app now
         </a>
 
