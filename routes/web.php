@@ -21,6 +21,7 @@ Auth::routes(['verify' => true]);
 
 
 Route::view('/home', 'home')->middleware('auth','verified');
+Route::view('/passwordReset', 'email.password_reset')->middleware('auth');
 
 Auth::routes();
 

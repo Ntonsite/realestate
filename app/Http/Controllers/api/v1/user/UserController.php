@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\api\v1\user;
-
+use Carbon\Exceptions\Exception;
 use App\Http\Controllers\api\v1\AppHelper;
 use App\Http\Controllers\Controller;
 use Illuminate\Auth\Events\Verified;
@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 
@@ -61,7 +62,7 @@ class UserController extends Controller
             'last_name' => request()->last_name,
             'email' => request()->email,
             'country' => request()->country,
-            'verified_token' => rand(0,9999),
+            'verified_token' => rand(1000,9999),
             'password' => request()->password,
         ]);
 
@@ -122,6 +123,30 @@ class UserController extends Controller
     }
 
 
+    public function forgotPassword(Request $request){
+        $input = $request->all();
+        $rules = array(
+            'email' => "required|email",
+        );
+        $validator = Validator::make($input, $rules);
+        if ($validator->fails()) {
+            return response()->json(AppHelper::appResponseWithValidation($validator,[]));
+        } else {
+            try {
+                $response = Password::sendResetLink($request->only('email'));
+                switch ($response) {
+                    case Password::RESET_LINK_SENT:
+                        return response()->json(AppHelper::appResponse(false,trans($response),[]));
+                    case Password::INVALID_USER:
+                        return response()->json(AppHelper::appResponse(true,trans($response),[]));
+                }
+            } catch (\Swift_TransportException $ex) {
+                return response()->json(AppHelper::appResponse(true,$ex->getMessage(),[]));
+            } catch (Exception $ex) {
+                return response()->json(AppHelper::appResponse(true,$ex->getMessage(),[]));
+            }
+        }
+    }
 
     public function show(User $user)
     {

@@ -68,24 +68,14 @@
 <div class="flex-center position-ref full-height">
     <div class="content">
 
-        @if(!$already_verified)
             <div class="title m-b-md">
                 Real Estate
             </div>
-        <p>Email Verified</p>
-        <a href="{{url('login')}}" class="btn btn-primary">
+        <p>Successful</p>
+        <a href="{{url('passwordReset')}}" class="btn btn-primary">
             Login into app now
         </a>
-        @else
-            <div class="title m-b-md">
-                Oops!
-            </div>
-            <p>Invalid email verification or you already validate email</p>
-            <a href="{{url('login')}}" class="btn btn-primary">
-                Try to Login into app now
-            </a>
 
-        @endif
     </div>
 </div>
 </body>
