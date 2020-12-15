@@ -35,8 +35,10 @@ Route::prefix('user')->group(function() use ($user_path){
 });
 
 Route::prefix('property')->group(function() use ($property_path){
-    Route::get('list', $property_path."PropertyController@index");
+    Route::get('/', $property_path."PropertyController@index");
+    Route::get('type/{type}', $property_path."PropertyController@type");
     Route::get('show/{property}', $property_path."PropertyController@show");
+    Route::middleware('auth:api')->get('user', $property_path."PropertyController@userProperty");
     Route::middleware('auth:api')->post('store', $property_path."PropertyController@store");
     Route::middleware('auth:api')->patch('update/{property}', $property_path."PropertyController@update");
     Route::middleware('auth:api')->delete('delete/{property}', $property_path."PropertyController@destroy");

@@ -67,7 +67,9 @@ class UserController extends Controller
         ]);
 
         $user = User::where('email',request()->email)->first();
-        $this->sendEmailVerification($user);
+
+        //todo uncomment for production
+       // $this->sendEmailVerification($user);
 
         $request['password'] = $password;
         return AppHelper::userLogin(request(['email', 'password']));
